@@ -1,5 +1,9 @@
 // config/nodemailer.js
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+// Ensure environment variables are loaded
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
@@ -9,6 +13,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
+  debug: true, // Enable debug output
+  logger: true // Log information about the mail
 });
 
 // Verify the connection configuration

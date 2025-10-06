@@ -108,9 +108,9 @@ export const submitContactForm = async (req, res) => {
         const info = await transporter.sendMail(mailOptions);
         console.log("Email sent successfully:", info.messageId);
         
-        return res.json({ 
+        return res.status(200).json({ 
             success: true, 
-            message: 'Message sent successfully'
+            message: 'Message sent successfully!'
         });
         
     } catch (error) {

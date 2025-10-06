@@ -71,8 +71,9 @@ const handleSubmit = async (e) => {
     });
     
     const data = await response.json();
+    console.log("Contact form response:", data);
     
-    if (response.ok) {
+    if (data.success) {
       setSubmitStatus({ success: true, message: 'Message sent successfully!' });
       // Reset form
       setFormData({
