@@ -10,7 +10,6 @@ import Work from './pages/Work';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
-import Login from './pages/Login';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
@@ -69,7 +68,6 @@ function App() {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route 
                   path="/admin/dashboard" 

@@ -1,36 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet';
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fallback data in case API fails
-  const fallbackPosts = [
+  // Fallback data for when API returns empty array
+  const placeholderPosts = [
     {
       _id: '1',
-      title: 'Design Thinking Process',
-      content: 'Design thinking is a non-linear, iterative process that teams use to understand users, challenge assumptions, redefine problems and create innovative solutions to prototype and test.',
-      author: 'Admin',
-      image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-      createdAt: new Date('2023-06-15').toISOString()
+      title: 'The Future of Product Design',
+      content: 'Exploring emerging trends and technologies shaping the future of product design...',
+      author: 'Jane Smith',
+      image: 'https://source.unsplash.com/random/800x600?design,product&sig=1',
+      createdAt: new Date('2023-05-15').toISOString()
     },
     {
       _id: '2',
-      title: 'The Future of UX Design',
-      content: 'As technology evolves, so does the field of UX design. This post explores emerging trends and what they mean for designers.',
-      author: 'Admin',
-      image: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-      createdAt: new Date('2023-07-22').toISOString()
+      title: 'Sustainable Design Practices',
+      content: 'How designers are incorporating sustainability into their process and outcomes...',
+      author: 'John Doe',
+      image: 'https://source.unsplash.com/random/800x600?sustainable,design&sig=2',
+      createdAt: new Date('2023-06-22').toISOString()
     },
     {
       _id: '3',
-      title: 'Sustainable Design Practices',
-      content: "Sustainability in design is more than a trend—it's a responsibility. Learn how designers are creating eco-friendly solutions.",
-      author: 'Admin',
-      image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-      createdAt: new Date('2023-08-10').toISOString()
+      title: 'User-Centered Design: A Case Study',
+      content: 'A deep dive into how user-centered design principles transformed a failing product...',
+      author: 'Alex Johnson',
+      image: 'https://source.unsplash.com/random/800x600?user,design&sig=3',
+      createdAt: new Date('2023-07-10').toISOString()
     }
   ];
 
@@ -46,18 +48,11 @@ const Blog = () => {
         }
         
         const data = await response.json();
-        console.log('Fetched blog posts:', data); // Debug log
-        if (Array.isArray(data) && data.length > 0) {
-          setPosts(data);
-        } else {
-          console.warn('No blog posts found in database, using fallback data');
-          setPosts(fallbackPosts);
-        }
+        console.log('Fetched blog posts:', data);
+        setPosts(data);
       } catch (error) {
         console.error('Error fetching blog posts:', error);
         setError('Failed to load blog posts');
-        // Use fallback data if API fails
-        setPosts(fallbackPosts);
       } finally {
         setLoading(false);
       }
@@ -85,28 +80,94 @@ const Blog = () => {
     );
   }
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { y: -50, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.6
+      }
+    }
+  };
+
   return (
     <div className="pt-24 pb-20">
+      <Helmet>
+        <title>Blog | Whipsaw - Insights and Stories</title>
+        <meta name="description" content="Explore the latest insights, thoughts, and stories from the Whipsaw team on design, innovation, and creativity." />
+        <meta name="keywords" content="whipsaw, blog, design, innovation, creative, insights" />
+        <meta property="og:title" content="Whipsaw Blog" />
+        <meta property="og:description" content="Insights, thoughts, and stories from the Whipsaw team." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://whipsaw.com/blog" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial="hidden"
+          animate="visible"
+          variants={headerVariants}
+        >
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Blog</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Insights, thoughts, and stories from the Whipsaw team.
           </p>
           {error && <p className="text-red-500 mt-4">{error}</p>}
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <article 
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {(posts.length > 0 ? posts : placeholderPosts).map((post) => (
+            <motion.article 
               key={post._id}
-              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all"
+              variants={itemVariants}
+              whileHover={{ 
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
             >
               <Link to={`/blog/${post._id}`}>
                 <img 
                   src={post.image} 
                   alt={post.title}
-                  className="w-full h-56 object-cover"
+                  loading="lazy"
+                  className="w-full h-56 object-cover transform transition-transform duration-300"
+                  onLoad={(e) => e.target.classList.add('loaded')}
+                  style={{ willChange: 'transform' }}
                 />
                 <div className="p-6">
                   <div className="flex items-center text-gray-500 text-sm mb-2">
@@ -125,9 +186,9 @@ const Blog = () => {
                   </div>
                 </div>
               </Link>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

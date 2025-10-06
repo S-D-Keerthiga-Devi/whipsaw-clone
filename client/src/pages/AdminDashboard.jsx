@@ -51,14 +51,21 @@ const AdminDashboard = () => {
     fetchPosts();
   }, [navigate]);
 
-  const fetchPosts = async () => {
-    // This function is now just a placeholder since we're using mock data
-    setLoading(true);
+  // Refetch posts after operations
+  const refreshPosts = async () => {
     try {
-      // In a real app, this would fetch from the API
-      setLoading(false);
+      setLoading(true);
+      const response = await fetch('http://localhost:5000/api/blog');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch blog posts');
+      }
+      
+      const data = await response.json();
+      setPosts(data);
     } catch (error) {
-      setError('An error occurred while fetching blog posts');
+      console.error('Error fetching blog posts:', error);
+      setError('Failed to load blog posts');
     } finally {
       setLoading(false);
     }
@@ -78,37 +85,58 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       
-      // Mock saving post for demo
-      setTimeout(() => {
-        if (editingPost) {
-          // Update existing post in our mock data
-          setPosts(posts.map(post => 
-            post._id === editingPost._id ? {...formData, _id: post._id, createdAt: post.createdAt} : post
-          ));
-        } else {
-          // Add new post to our mock data
-          const newPost = {
-            ...formData,
-            _id: Date.now().toString(),
-            createdAt: new Date().toISOString()
-          };
-          setPosts([newPost, ...posts]);
+      if (editingPost) {
+        // Update existing post
+        const response = await fetch(`http://localhost:5000/api/blog/${editingPost._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to update blog post');
         }
         
-        // Reset form
-        setFormData({
-          title: '',
-          content: '',
-          author: '',
-          image: ''
+        const updatedPost = await response.json();
+        setPosts(posts.map(post => 
+          post._id === editingPost._id ? updatedPost : post
+        ));
+      } else {
+        // Create new post
+        const response = await fetch('http://localhost:5000/api/blog', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(formData)
         });
-        setShowForm(false);
-        setEditingPost(null);
-        setLoading(false);
-      }, 500); // Simulate network delay
+        
+        if (!response.ok) {
+          throw new Error('Failed to create blog post');
+        }
+        
+        const newPost = await response.json();
+        setPosts([newPost, ...posts]);
+      }
+      
+      // Reset form
+      setFormData({
+        title: '',
+        content: '',
+        author: '',
+        image: ''
+      });
+      setShowForm(false);
+      setEditingPost(null);
       
     } catch (error) {
+      console.error('Error saving blog post:', error);
       setError('An error occurred while saving the blog post');
+    } finally {
       setLoading(false);
     }
   };
@@ -127,12 +155,24 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        // Mock delete for demo
-        setTimeout(() => {
-          setPosts(posts.filter(post => post._id !== id));
-        }, 300);
+        setLoading(true);
+        const response = await fetch(`http://localhost:5000/api/blog/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to delete blog post');
+        }
+        
+        setPosts(posts.filter(post => post._id !== id));
       } catch (error) {
+        console.error('Error deleting blog post:', error);
         setError('An error occurred while deleting the blog post');
+      } finally {
+        setLoading(false);
       }
     }
   };

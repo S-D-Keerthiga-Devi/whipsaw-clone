@@ -93,6 +93,16 @@ const Navbar = () => {
                 <span className="text-sm font-medium text-gray-700">
                   Welcome, {user.username}
                 </span>
+                <Link
+                  to="/admin/dashboard"
+                  className="text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors px-4 py-2"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/admin/dashboard';
+                  }}
+                >
+                  Dashboard
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors px-4 py-2"
@@ -158,6 +168,17 @@ const Navbar = () => {
                     <div className="text-sm font-medium text-gray-700">
                       Welcome, {user.username}
                     </div>
+                    <Link
+                        to="/admin/dashboard"
+                        className="block w-full text-left px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsOpen(false);
+                          window.location.href = '/admin/dashboard';
+                        }}
+                      >
+                        Dashboard
+                      </Link>
                     <button
                       onClick={handleLogout}
                       className="px-5 py-3 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"

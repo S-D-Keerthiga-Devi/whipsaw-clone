@@ -41,19 +41,12 @@ export const submitContactForm = async (req, res) => {
           .content {
             padding: 0 15px;
           }
-          .field {
-            margin-bottom: 15px;
-          }
-          .label {
-            font-weight: bold;
-            color: #555;
-          }
           .message {
             background-color: white;
             border: 1px solid #e0e0e0;
             border-radius: 3px;
             padding: 15px;
-            margin-top: 5px;
+            margin: 15px 0;
           }
           .footer {
             margin-top: 20px;
@@ -63,29 +56,39 @@ export const submitContactForm = async (req, res) => {
             border-top: 1px solid #e0e0e0;
             padding-top: 15px;
           }
+          .button {
+            display: inline-block;
+            background-color: #000;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h2>New Contact Form Submission</h2>
+            <h2>Thank You for Contacting Whipsaw</h2>
           </div>
           <div class="content">
-            <div class="field">
-              <div class="label">Name:</div>
-              <div>${name}</div>
+            <p>Hello ${name},</p>
+            <p>Thank you for reaching out to us. We have received your message and will get back to you as soon as possible.</p>
+            
+            <div class="message">
+              <p><strong>Your message:</strong></p>
+              <p>${message.replace(/\\n/g, '<br>')}</p>
             </div>
-            <div class="field">
-              <div class="label">Email:</div>
-              <div>${email}</div>
-            </div>
-            <div class="field">
-              <div class="label">Message:</div>
-              <div class="message">${message.replace(/\\n/g, '<br>')}</div>
-            </div>
+            
+            <p>If you have any additional questions or information to share, please don't hesitate to contact us again.</p>
+            
+            <p>Best regards,<br>The Whipsaw Team</p>
+            
+            <center><a href="https://whipsaw.com" class="button">Visit Our Website</a></center>
           </div>
           <div class="footer">
-            <p>This email was sent from the Whipsaw website contact form.</p>
+            <p>This is an automated response to your inquiry. Please do not reply to this email.</p>
           </div>
         </div>
       </body>
@@ -95,11 +98,11 @@ export const submitContactForm = async (req, res) => {
     // Send email
       const mailOptions = {
         from: process.env.SENDER_EMAIL || '"Whipsaw Contact" <contact@whipsaw.com>',
-        to: process.env.SENDER_EMAIL || 'sdkeerthigadevi@gmail.com', // Your email to receive contact form submissions
-        replyTo: email,
-        subject: `Whipsaw Contact: ${name}`,
-       html: htmlContent,
-       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`  // Plain text fallback
+        to: email, // Send to the email entered in the form
+        replyTo: process.env.SENDER_EMAIL || 'contact@whipsaw.com',
+        subject: `Whipsaw Contact: Thank you for your message, ${name}`,
+        html: htmlContent,
+        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`  // Plain text fallback
      };
      
      try {

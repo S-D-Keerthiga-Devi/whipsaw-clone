@@ -50,14 +50,14 @@ const About = () => {
       variants={pageVariants}
       className="pt-24 pb-20"
     >
-      <div className="container-custom">
+      <div className="container mx-auto px-4 max-w-6xl">
         {/* Hero Section */}
         <motion.div 
-          className="mb-24 max-w-4xl mx-auto text-center"
+          className="mb-20 max-w-4xl mx-auto text-center"
           variants={itemVariants}
         >
-          <h1 className="text-5xl md:text-6xl font-bold mb-8">About Whipsaw</h1>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">About Whipsaw</h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We are a globally recognized design firm creating innovative products, experiences, and brands that transform businesses.
           </p>
         </motion.div>
@@ -68,14 +68,14 @@ const About = () => {
           variants={staggerContainer}
         >
           <motion.div 
-            className="max-w-4xl mx-auto mb-12"
+            className="max-w-4xl mx-auto mb-10"
             variants={itemVariants}
           >
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
-            <p className="text-lg mb-6">
+            <p className="text-base text-gray-700 leading-relaxed mb-4">
               Founded in 1999, Whipsaw has grown from a small industrial design studio to a comprehensive innovation firm with global reach. Our journey has been defined by a relentless pursuit of excellence and a commitment to creating meaningful impact through design.
             </p>
-            <p className="text-lg">
+            <p className="text-base text-gray-700 leading-relaxed">
               Over the decades, we've partnered with startups and Fortune 500 companies alike, helping them navigate complex challenges and emerge with solutions that resonate with users and drive business success.
             </p>
           </motion.div>
@@ -85,18 +85,18 @@ const About = () => {
             variants={staggerContainer}
           >
             <motion.div 
-              className="bg-gray-100 p-8 rounded-lg"
+              className="bg-gray-50 p-8 rounded-lg border border-gray-200"
               variants={itemVariants}
             >
-              <h3 className="text-xl font-bold mb-4">Our Mission</h3>
-              <p>To create innovative designs that improve people's lives and help businesses thrive in an ever-changing world.</p>
+              <h3 className="text-xl font-bold mb-3">Our Mission</h3>
+              <p className="text-gray-700 leading-relaxed">To create innovative designs that improve people's lives and help businesses thrive in an ever-changing world.</p>
             </motion.div>
             <motion.div 
-              className="bg-gray-100 p-8 rounded-lg"
+              className="bg-gray-50 p-8 rounded-lg border border-gray-200"
               variants={itemVariants}
             >
-              <h3 className="text-xl font-bold mb-4">Our Vision</h3>
-              <p>To be the world's most influential design firm, known for transformative solutions that shape the future of human experience.</p>
+              <h3 className="text-xl font-bold mb-3">Our Vision</h3>
+              <p className="text-gray-700 leading-relaxed">To be the world's most influential design firm, known for transformative solutions that shape the future of human experience.</p>
             </motion.div>
           </motion.div>
         </motion.div>
@@ -123,7 +123,7 @@ const About = () => {
             >
               <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
               <h3 className="text-xl font-bold mb-4">Discover</h3>
-              <p>We immerse ourselves in your world, understanding your business, users, and market to identify opportunities.</p>
+              <p className="text-gray-700 leading-relaxed">We immerse ourselves in your world, understanding your business, users, and market to identify opportunities.</p>
             </motion.div>
             <motion.div 
               className="text-center"
@@ -131,7 +131,7 @@ const About = () => {
             >
               <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
               <h3 className="text-xl font-bold mb-4">Create</h3>
-              <p>Our multidisciplinary team collaborates to develop innovative concepts and refine them through iterative design.</p>
+              <p className="text-gray-700 leading-relaxed">Our multidisciplinary team collaborates to develop innovative concepts and refine them through iterative design.</p>
             </motion.div>
             <motion.div 
               className="text-center"
@@ -139,75 +139,8 @@ const About = () => {
             >
               <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
               <h3 className="text-xl font-bold mb-4">Deliver</h3>
-              <p>We transform concepts into market-ready solutions, providing support throughout implementation and launch.</p>
+              <p className="text-gray-700 leading-relaxed">We transform concepts into market-ready solutions, providing support throughout implementation and launch.</p>
             </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Team Section */}
-        <motion.div 
-          className="mb-20"
-          variants={staggerContainer}
-        >
-          <motion.h2 
-            className="text-3xl font-bold mb-12 text-center"
-            variants={itemVariants}
-          >
-            Our Leadership
-          </motion.h2>
-
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer}
-          >
-            {[
-              {
-                name: 'Dan Harden',
-                title: 'CEO & Principal Designer',
-                image: 'https://source.unsplash.com/random/300x300?portrait,man&sig=1'
-              },
-              {
-                name: 'Cole Derby',
-                title: 'Creative Director',
-                image: 'https://source.unsplash.com/random/300x300?portrait,woman&sig=2'
-              },
-              {
-                name: 'Ari Turgel',
-                title: 'Director of Strategy',
-                image: 'https://source.unsplash.com/random/300x300?portrait,man&sig=3'
-              },
-              {
-                name: 'Lisa Whipsaw',
-                title: 'Director of UX',
-                image: 'https://source.unsplash.com/random/300x300?portrait,woman&sig=4'
-              },
-              {
-                name: 'Michael Chen',
-                title: 'Engineering Director',
-                image: 'https://source.unsplash.com/random/300x300?portrait,man&sig=5'
-              },
-              {
-                name: 'Sarah Johnson',
-                title: 'Director of Operations',
-                image: 'https://source.unsplash.com/random/300x300?portrait,woman&sig=6'
-              }
-            ].map((member, index) => (
-              <motion.div 
-                key={index}
-                className="text-center"
-                variants={itemVariants}
-              >
-                <div className="mb-4 overflow-hidden rounded-full w-48 h-48 mx-auto">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                <p className="text-gray-600">{member.title}</p>
-              </motion.div>
-            ))}
           </motion.div>
         </motion.div>
 
@@ -224,7 +157,7 @@ const About = () => {
           </motion.h2>
 
           <motion.div 
-            className="space-y-8"
+            className="space-y-6"
             variants={staggerContainer}
           >
             {[
@@ -247,15 +180,15 @@ const About = () => {
             ].map((value, index) => (
               <motion.div 
                 key={index}
-                className="flex items-start"
+                className="flex items-center gap-6 bg-gray-50 p-6 rounded-lg border border-gray-200"
                 variants={itemVariants}
               >
-                <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-white text-xl font-bold mr-6 flex-shrink-0">
+                <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
                   {index + 1}
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="text-xl font-bold mb-2">{value.title}</h3>
-                  <p className="text-gray-600">{value.description}</p>
+                  <p className="text-gray-700 leading-relaxed">{value.description}</p>
                 </div>
               </motion.div>
             ))}
