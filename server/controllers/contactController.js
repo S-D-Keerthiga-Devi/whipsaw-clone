@@ -6,6 +6,11 @@ export const submitContactForm = async (req, res) => {
     console.log("Contact form submission received:", req.body);
     const { name, email, message } = req.body;
     
+    // Simple validation
+    if (!name || !email || !message) {
+      return res.status(400).json({ message: 'Please provide name, email and message' });
+    }
+    
     // HTML email template with styling
     const htmlContent = `
       <!DOCTYPE html>
@@ -88,18 +93,29 @@ export const submitContactForm = async (req, res) => {
     `;
     
     // Send email
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'contact@whipsaw.com',
-      to: process.env.EMAIL_TO || 'admin@whipsaw.com',
-      replyTo: email,
-      subject: `Whipsaw Contact: ${name}`,
-      html: htmlContent
-    };
-    
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Message sent successfully' });
+      const mailOptions = {
+        from: process.env.SENDER_EMAIL || '"Whipsaw Contact" <contact@whipsaw.com>',
+        to: process.env.SENDER_EMAIL || 'sdkeerthigadevi@gmail.com', // Your email to receive contact form submissions
+        replyTo: email,
+        subject: `Whipsaw Contact: ${name}`,
+       html: htmlContent,
+       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`  // Plain text fallback
+     };
+     
+     try {
+       const info = await transporter.sendMail(mailOptions);
+       console.log('Message sent: %s', info.messageId);
+       
+       // Return success
+       res.status(200).json({ 
+         message: 'Message sent successfully'
+       });
+    } catch (emailError) {
+      console.error('Error sending email:', emailError);
+      res.status(500).json({ message: 'Failed to send message. Please try again later.' });
+    }
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({ message: 'Failed to send message' });
+    console.error('Error processing contact form:', error);
+    res.status(500).json({ message: 'Failed to send message. Please try again later.' });
   }
 };

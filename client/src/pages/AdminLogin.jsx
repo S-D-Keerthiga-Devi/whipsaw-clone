@@ -1,7 +1,8 @@
-import { useState, useContext } from 'react';
+// AdminLogin.jsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import AuthContext from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { login } = useContext(AuthContext);
+  const { login, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -36,14 +37,16 @@ const AdminLogin = () => {
       } else {
         // Fallback to demo login if API fails
         if (formData.username === 'admin' && formData.password === 'admin123') {
-          // Store user info in localStorage through AuthContext
+          // For demo purposes, we'll use a mock user
           const userData = {
             username: 'admin',
             isAdmin: true,
             token: 'demo-token'
           };
+          // Store user info in localStorage
           localStorage.setItem('whipsawUser', JSON.stringify(userData));
-          login(userData);
+          // Update the user state in AuthContext
+          setUser(userData);
           navigate('/admin/dashboard');
         } else {
           setError(result.message || 'Invalid credentials. Try admin/admin123');

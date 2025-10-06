@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +58,11 @@ const Navbar = () => {
     open: { opacity: 1, y: 0 }
   };
 
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
+
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-lg py-3' : 'bg-white bg-opacity-90 py-4'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,12 +86,28 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/admin/login"
-              className="ml-4 px-4 py-2 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"
-            >
-              Admin
-            </Link>
+            
+            {/* Authentication Links */}
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm font-medium text-gray-700">
+                  Welcome, {user.username}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors px-4 py-2"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/admin/login"
+                className="ml-4 px-4 py-2 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"
+              >
+                Admin
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -128,14 +151,30 @@ const Navbar = () => {
                     </Link>
                   </motion.div>
                 ))}
-                <motion.div variants={itemVariants}>
-                  <Link
-                    to="/admin/login"
-                    className="inline-block px-5 py-3 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"
-                  >
-                    Admin
-                  </Link>
-                </motion.div>
+                
+                {/* Mobile Authentication Links */}
+                {user ? (
+                  <motion.div variants={itemVariants} className="flex flex-col space-y-4">
+                    <div className="text-sm font-medium text-gray-700">
+                      Welcome, {user.username}
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="px-5 py-3 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div variants={itemVariants}>
+                    <Link
+                      to="/admin/login"
+                      className="inline-block px-5 py-3 text-sm font-medium uppercase tracking-wider text-white bg-black rounded hover:bg-gray-800 transition-colors"
+                    >
+                      Admin
+                    </Link>
+                  </motion.div>
+                )}
               </div>
             </div>
           </motion.div>

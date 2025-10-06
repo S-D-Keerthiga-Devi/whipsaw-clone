@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+// AuthContext.jsx
+import { createContext, useState, useEffect, useContext } from 'react';
 
 const AuthContext = createContext();
 
@@ -7,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
+    // Check if user is logged in from localStorage on initial load
     const storedUser = localStorage.getItem('whipsawUser');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -47,10 +48,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+// Custom hook to use the auth context
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
 export default AuthContext;
