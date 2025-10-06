@@ -2,8 +2,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const containerRef = useRef(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -490,7 +492,9 @@ const Home = () => {
               onClick={scrollToContent}
               className="bg-white text-black px-10 py-4 rounded-md font-medium hover:bg-gray-100 transition-colors text-lg shadow-lg relative overflow-hidden group"
             >
-              <span className="relative z-10">Explore Our Work</span>
+              <span 
+              onClick={()=> navigate('/work')}
+              className="relative z-10">Explore Our Work</span>
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400"
                 initial={{ x: "-100%" }}

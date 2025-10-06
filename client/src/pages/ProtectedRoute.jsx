@@ -65,8 +65,14 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
       currentUser = JSON.parse(storedUser);
       // Force isAdmin to be true for demo
       currentUser.isAdmin = true;
+      
+      // Update the user in context if we're using localStorage data
+      if (!user) {
+        setUser(currentUser);
+      }
     } catch (e) {
       console.error('Error parsing stored user:', e);
+      localStorage.removeItem('whipsawUser');
       return <Navigate to="/admin/login" replace />;
     }
   }

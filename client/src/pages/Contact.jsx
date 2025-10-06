@@ -51,44 +51,44 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    return;
+  }
+  
+  setIsSubmitting(true);
+  setSubmitStatus(null);
+  
+  try {
+    const response = await fetch('http://localhost:5000/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
     
-    if (!validateForm()) {
-      return;
-    }
+    const data = await response.json();
     
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    
-    try {
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+    if (response.ok) {
+      setSubmitStatus({ success: true, message: 'Message sent successfully!' });
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
       });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        setSubmitStatus({ success: true, message: 'Message sent successfully!' });
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
-      } else {
-        setSubmitStatus({ success: false, message: data.message || 'Failed to send message. Please try again.' });
-      }
-    } catch (error) {
-      setSubmitStatus({ success: false, message: 'An error occurred. Please try again later.' });
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      setSubmitStatus({ success: false, message: data.message || 'Failed to send message. Please try again.' });
     }
-  };
+  } catch (error) {
+    setSubmitStatus({ success: false, message: `Network error: ${error.message}` });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Animation variants
   const pageVariants = {
@@ -220,8 +220,8 @@ const Contact = () => {
                     <h4 className="text-lg font-semibold mb-2">Address</h4>
                     <p className="text-gray-600">
                       123 Design Street<br />
-                      San Francisco, CA 94103<br />
-                      United States
+                      ABC City, CA 94103<br />
+                      India
                     </p>
                   </div>
                   
@@ -237,7 +237,7 @@ const Contact = () => {
                   
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Follow Us</h4>
-                    <div className="flex space-x-4">
+                    <div className="flex space-x-4 ml-24">
                       <a href="#" className="text-gray-600 hover:text-black transition-colors">Twitter</a>
                       <a href="#" className="text-gray-600 hover:text-black transition-colors">Instagram</a>
                       <a href="#" className="text-gray-600 hover:text-black transition-colors">LinkedIn</a>

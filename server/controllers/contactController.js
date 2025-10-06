@@ -1,3 +1,4 @@
+// controllers/contactController.js
 import nodemailer from "nodemailer";
 import transporter from "../config/nodemailer.js";
 
@@ -97,13 +98,15 @@ export const submitContactForm = async (req, res) => {
         const mailOptions = {
             from: `"Whipsaw Team" <${process.env.SENDER_EMAIL}>`,
             to: email,
-            replyTo: process.env.SENDER_EMAIL || 'contact@whipsaw.com',
+            replyTo: process.env.SENDER_EMAIL,
             subject: `Whipsaw Contact: Thank you for your message, ${name}`,
             html: htmlContent,
             text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
         };
         
-        await transporter.sendMail(mailOptions);
+        console.log("Attempting to send email...");
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully:", info.messageId);
         
         return res.json({ 
             success: true, 
@@ -114,7 +117,7 @@ export const submitContactForm = async (req, res) => {
         console.error('Error processing contact form:', error);
         return res.json({ 
             success: false, 
-            message: 'Failed to send message. Please try again later.' 
+            message: `Failed to send message: ${error.message}` 
         });
     }
 };

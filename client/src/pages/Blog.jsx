@@ -15,7 +15,7 @@ const Blog = () => {
       title: 'The Future of Product Design',
       content: 'Exploring emerging trends and technologies shaping the future of product design...',
       author: 'Jane Smith',
-      image: 'https://source.unsplash.com/random/800x600?design,product&sig=1',
+      image: 'https://images.unsplash.com/photo-1586717799252-bd134ad00e26?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       createdAt: new Date('2023-05-15').toISOString()
     },
     {
@@ -23,7 +23,7 @@ const Blog = () => {
       title: 'Sustainable Design Practices',
       content: 'How designers are incorporating sustainability into their process and outcomes...',
       author: 'John Doe',
-      image: 'https://source.unsplash.com/random/800x600?sustainable,design&sig=2',
+      image: 'https://images.unsplash.com/photo-1498075702571-ecb018f3752d?q=80&w=1756&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       createdAt: new Date('2023-06-22').toISOString()
     },
     {
@@ -31,7 +31,7 @@ const Blog = () => {
       title: 'User-Centered Design: A Case Study',
       content: 'A deep dive into how user-centered design principles transformed a failing product...',
       author: 'Alex Johnson',
-      image: 'https://source.unsplash.com/random/800x600?user,design&sig=3',
+      image: 'https://images.unsplash.com/photo-1710799885122-428e63eff691?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       createdAt: new Date('2023-07-10').toISOString()
     }
   ];
@@ -40,8 +40,14 @@ const Blog = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        // Make sure the server is running on port 5000
-        const response = await fetch('http://localhost:5000/api/blog');
+        // Use relative URL to avoid CORS issues
+        const response = await fetch('/api/blogs', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
         
         if (!response.ok) {
           throw new Error('Failed to fetch blog posts');
@@ -49,10 +55,12 @@ const Blog = () => {
         
         const data = await response.json();
         console.log('Fetched blog posts:', data);
-        setPosts(data);
+        setPosts(data.length > 0 ? data : placeholderPosts);
       } catch (error) {
         console.error('Error fetching blog posts:', error);
-        setError('Failed to load blog posts');
+        setError('Failed to load blog posts. Please try again later.');
+        // Use placeholder posts when there's an error
+        setPosts(placeholderPosts);
       } finally {
         setLoading(false);
       }

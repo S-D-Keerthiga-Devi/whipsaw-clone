@@ -13,6 +13,9 @@ import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import NewBlog from './pages/NewBlog';
+import EditBlog from './pages/EditBlog';
+import NewWork from './pages/NewWork';
 import NotFound from './pages/NotFound';
 
 // Components
@@ -75,6 +78,30 @@ function App() {
                   element={
                     <ProtectedRoute adminOnly={true}>
                       <AdminDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/admin/blogs/new" 
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <NewBlog />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/admin/blogs/edit/:id" 
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <EditBlog />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/admin/works/new" 
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <NewWork />
                     </ProtectedRoute>
                   } 
                 />

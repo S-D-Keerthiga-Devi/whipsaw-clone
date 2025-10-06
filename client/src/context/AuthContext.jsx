@@ -52,6 +52,12 @@ export const AuthProvider = ({ children }) => {
       console.log('Login response:', data);
       
       if (response.ok) {
+        // Ensure token is included in the user data
+        if (!data.token) {
+          console.error('No token received from server');
+          return { success: false, message: 'Authentication error: No token received' };
+        }
+        
         // Always set isAdmin to true for demo purposes
         const userData = {
           ...data,

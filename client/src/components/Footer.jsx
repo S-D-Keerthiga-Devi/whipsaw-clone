@@ -28,9 +28,9 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-6">Contact</h4>
             <address className="not-italic text-gray-300">
               <p>123 Design Street</p>
-              <p>San Francisco, CA 94103</p>
+              <p>ABC City, CA 94103</p>
               <p className="mt-3">info@whipsaw.com</p>
-              <p>+1 (415) 555-0123</p>
+              <p>+91 12345-67890</p>
             </address>
           </div>
           
