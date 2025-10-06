@@ -26,7 +26,7 @@ const Work = () => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/api/work');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/work`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch work items');

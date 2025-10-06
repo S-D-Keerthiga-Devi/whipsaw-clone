@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         }
         
         // Fetch blogs - using relative URL to avoid CORS issues
-        const blogsResponse = await fetch('/api/blogs', {
+        const blogsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
