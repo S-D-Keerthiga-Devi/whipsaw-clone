@@ -177,7 +177,9 @@ const Blog = () => {
                   </div>
                   <h2 className="text-xl font-bold mb-3 hover:text-gray-700 transition-colors">{post.title}</h2>
                   <p className="text-gray-600 line-clamp-3">
-                    {post.content}
+                    {typeof post.content === 'string' 
+                      ? post.content.replace(/<[^>]*>/g, '') 
+                      : JSON.stringify(post.content).substring(0, 150) + '...'}
                   </p>
                   <div className="mt-4 pt-4 border-t border-gray-100">
                     <span className="text-black font-medium hover:text-gray-700 transition-colors">

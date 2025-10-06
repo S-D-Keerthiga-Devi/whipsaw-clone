@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
-import Projects from './Projects';
 
 const Home = () => {
   const scrollRef = useRef(null);
@@ -61,6 +60,153 @@ const Home = () => {
       repeat: Infinity,
       ease: "easeInOut"
     }
+  };
+
+  // Sample projects data (same as in Work.jsx)
+  const sampleProjects = [
+    {
+      id: 1,
+      title: 'Autonomous Vehicle Interface',
+      category: 'digital',
+      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80',
+      client: 'Future Motors',
+      year: '2023',
+      description: 'A revolutionary interface design for autonomous vehicles that enhances user experience and safety through intuitive controls and real-time feedback systems.',
+    },
+    {
+      id: 2,
+      title: 'Smart Home Ecosystem',
+      category: 'product',
+      image: 'https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80',
+      client: 'HomeConnect',
+      year: '2022',
+      description: 'A comprehensive smart home system featuring seamless integration of lighting, security, climate control, and entertainment devices with voice and app control.'
+    },
+    {
+      id: 3,
+      title: 'Medical Diagnostic Device',
+      category: 'product',
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80',
+      client: 'HealthTech',
+      year: '2023',
+      description: 'An innovative portable diagnostic device that enables rapid, accurate testing for multiple health conditions with wireless connectivity to healthcare systems.'
+    },
+    {
+      id: 4,
+      title: 'Financial App Redesign',
+      category: 'digital',
+      image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80',
+      client: 'MoneyWise',
+      year: '2022'
+    },
+    {
+      id: 5,
+      title: 'Sustainable Packaging System',
+      category: 'packaging',
+      image: 'https://images.unsplash.com/photo-1567570671138-76c7e06caa3b?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      client: 'EcoGoods',
+      year: '2023'
+    },
+    {
+      id: 6,
+      title: 'Wearable Health Monitor',
+      category: 'product',
+      image: 'https://images.unsplash.com/photo-1747224317356-6dd1a4a078fd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      client: 'VitalTrack',
+      year: '2022'
+    }
+  ];
+
+  // Project Card Component
+  const ProjectCard = ({ project, index }) => {
+    const cardRef = useRef(null);
+    const isInView = useInView(cardRef, { once: true, margin: "-100px", amount: 0.3 });
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <motion.div
+        ref={cardRef}
+        className="group relative overflow-hidden rounded-lg shadow-lg bg-white cursor-pointer"
+        initial={{ opacity: 0, y: 60, scale: 0.9 }}
+        animate={isInView ? {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: {
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: [0.6, 0.05, 0.01, 0.9]
+          }
+        } : { opacity: 0, y: 60, scale: 0.9 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        whileHover={{ y: -12, scale: 1.02 }}
+        transition={{ duration: 0.4, ease: [0.6, 0.05, 0.01, 0.9] }}
+      >
+        <motion.div
+          className="relative overflow-hidden"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] }}
+        >
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-80 object-cover"
+          />
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </motion.div>
+
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="p-8 w-full">
+            <motion.h3
+              className="text-white text-2xl font-bold"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              {project.title}
+            </motion.h3>
+            <motion.p
+              className="text-gray-200 mt-2 font-light"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3, delay: 0.15 }}
+            >
+              {project.client} • {project.year}
+            </motion.p>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              className="mt-4"
+            >
+              <Link
+                to={`/work/project-${project.id}`}
+                className="text-white underline underline-offset-4 font-medium inline-flex items-center gap-2"
+              >
+                View Project
+                <motion.span
+                  animate={{ x: isHovered ? 5 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  →
+                </motion.span>
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
   };
 
   // Marquee Component
@@ -259,98 +405,6 @@ const Home = () => {
     );
   };
 
-  // Project Card Component
-  const ProjectCard = ({ item, index }) => {
-    const cardRef = useRef(null);
-    const isInView = useInView(cardRef, { once: true, margin: "-100px", amount: 0.3 });
-    const [isHovered, setIsHovered] = useState(false);
-
-    return (
-      <motion.div
-        ref={cardRef}
-        className="group relative overflow-hidden rounded-lg shadow-lg bg-white cursor-pointer"
-        initial={{ opacity: 0, y: 60, scale: 0.9 }}
-        animate={isInView ? {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          transition: {
-            duration: 0.6,
-            delay: index * 0.1,
-            ease: [0.6, 0.05, 0.01, 0.9]
-          }
-        } : { opacity: 0, y: 60, scale: 0.9 }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        whileHover={{ y: -12, scale: 1.02 }}
-        transition={{ duration: 0.4, ease: [0.6, 0.05, 0.01, 0.9] }}
-      >
-        <motion.div
-          className="relative overflow-hidden"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] }}
-        >
-          <img
-            src={`https://source.unsplash.com/random/600x400?design,product&sig=${item}`}
-            alt={`Project ${item}`}
-            className="w-full h-80 object-cover"
-          />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.div>
-
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="p-8 w-full">
-            <motion.h3
-              className="text-white text-2xl font-bold"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              Project Title {item}
-            </motion.h3>
-            <motion.p
-              className="text-gray-200 mt-2 font-light"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.15 }}
-            >
-              Product Design / UX Design
-            </motion.p>
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              className="mt-4"
-            >
-              <Link
-                to={`/work/project-${item}`}
-                className="text-white underline underline-offset-4 font-medium inline-flex items-center gap-2"
-              >
-                View Project
-                <motion.span
-                  animate={{ x: isHovered ? 5 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  →
-                </motion.span>
-              </Link>
-            </motion.div>
-          </div>
-        </motion.div>
-      </motion.div>
-    );
-  };
-
   return (
     <motion.div
       ref={containerRef}
@@ -497,8 +551,73 @@ const Home = () => {
         </div>
       </section>
 
-      <Projects/>
+      {/* Featured Projects Section */}
+      <section ref={scrollRef} className="py-20 bg-white relative overflow-hidden">
+        <motion.div
+          className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-100 rounded-full opacity-10 blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            transition: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+          }}
+        />
 
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
+          >
+            <motion.h2
+              className="text-4xl font-bold mb-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Featured Projects
+            </motion.h2>
+            <motion.p
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Explore some of our recent work that showcases our design expertise.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            {sampleProjects.slice(0, 3).map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Link
+              to="/work"
+              className="inline-block bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors"
+            >
+              View All Projects
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Services Section */}
       <section className="py-20 bg-white relative overflow-hidden">

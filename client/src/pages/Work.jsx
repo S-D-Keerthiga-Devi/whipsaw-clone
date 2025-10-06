@@ -97,7 +97,7 @@ const Work = () => {
       id: 6,
       title: 'Wearable Health Monitor',
       category: 'product',
-      image: 'https://source.unsplash.com/random/800x600?wearable,health&sig=6',
+      image: 'https://images.unsplash.com/photo-1747224317356-6dd1a4a078fd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       client: 'VitalTrack',
       year: '2022'
     },
@@ -105,7 +105,7 @@ const Work = () => {
       id: 7,
       title: 'Retail Experience Design',
       category: 'spaces',
-      image: 'https://source.unsplash.com/random/800x600?retail,store&sig=7',
+      image: 'https://images.unsplash.com/photo-1758520387606-382ad2471b65?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       client: 'ModernShop',
       year: '2023'
     },
@@ -113,7 +113,7 @@ const Work = () => {
       id: 8,
       title: 'Electric Vehicle Charging Station',
       category: 'product',
-      image: 'https://source.unsplash.com/random/800x600?electric,charging&sig=8',
+      image: 'https://images.unsplash.com/photo-1738101001619-f0fd42ceafb0?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       client: 'PowerGrid',
       year: '2022'
     }

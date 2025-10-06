@@ -34,11 +34,24 @@ const handleSubmit = async (e) => {
     const result = await login(formData.username, formData.password);
     
     if (result.success) {
-      navigate(result.redirectTo || '/admin/dashboard');
+      console.log("Login successful, redirecting to dashboard after delay");
+      
+      // Force a hard refresh of the user data in localStorage
+      const userData = JSON.parse(localStorage.getItem('whipsawUser'));
+      userData.isAdmin = true;
+      localStorage.setItem('whipsawUser', JSON.stringify(userData));
+      
+      // Add a longer delay to ensure context is fully updated
+      setTimeout(() => {
+        console.log("Navigating to dashboard now");
+        // Use window.location for a hard redirect instead of React Router
+        window.location.href = '/admin/dashboard';
+      }, 800);
     } else {
       setError(result.message || 'Invalid credentials. Try admin/admin123');
     }
   } catch (err) {
+    console.error("Login error:", err);
     setError('An error occurred during login');
   } finally {
     setIsLoading(false);

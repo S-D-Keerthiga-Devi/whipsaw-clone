@@ -5,37 +5,70 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize auth state from localStorage
   useEffect(() => {
+    console.log('AuthProvider initializing...');
     const storedUser = localStorage.getItem('whipsawUser');
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        // Always force isAdmin to true for demo purposes
+        parsedUser.isAdmin = true;
+        
+        // Create a new user object to ensure React detects the change
+        const updatedUser = { ...parsedUser, isAdmin: true };
+        
+        console.log('User loaded from localStorage:', updatedUser);
+        
+        // Set the user in state
+        setUser(updatedUser);
+        
+        // Also update localStorage with the updated user
+        localStorage.setItem('whipsawUser', JSON.stringify(updatedUser));
       } catch (error) {
         console.error('Failed to parse stored user:', error);
         localStorage.removeItem('whipsawUser');
       }
     }
+    setIsInitialized(true);
   }, []);
 
   const login = async (username, password) => {
     try {
-      // In a real app, this would be an API call
-      // For demo purposes, we'll simulate a successful login
-      if (username === 'admin' && password === 'admin123') {
+      console.log('Attempting login with:', { username, password });
+      
+      // Make a real API call to the backend
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+      
+      const data = await response.json();
+      console.log('Login response:', data);
+      
+      if (response.ok) {
+        // Always set isAdmin to true for demo purposes
         const userData = {
-          username: 'admin',
-          isAdmin: true,
-          token: 'demo-token'
+          ...data,
+          isAdmin: true
         };
+        
+        console.log('Setting user data with isAdmin=true:', userData);
         localStorage.setItem('whipsawUser', JSON.stringify(userData));
         setUser(userData);
+        
         return { success: true, redirectTo: '/admin/dashboard' };
+      } else {
+        return { success: false, message: data.message || 'Invalid credentials' };
       }
-      return { success: false, message: 'Invalid credentials' };
     } catch (error) {
-      return { success: false, message: 'Login failed' };
+      console.error('Login error:', error);
+      return { success: false, message: 'Login failed. Server error.' };
     }
   };
 

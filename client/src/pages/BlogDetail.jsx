@@ -30,11 +30,18 @@ const BlogDetail = () => {
         }
         
         const data = await response.json();
-        setPost(data);
+        console.log('Fetched blog post:', data);
+        if (data) {
+          setPost(data);
+        } else {
+          // If data is empty or null, use placeholder
+          setPost(placeholderPost);
+        }
       } catch (error) {
         console.error('Error fetching blog post:', error);
         setError('Failed to load blog post');
-        setPost(null);
+        // Use placeholder post when there's an error
+        setPost(placeholderPost);
       } finally {
         setLoading(false);
       }
@@ -75,21 +82,21 @@ const BlogDetail = () => {
   };
 
   return (
-    <div className="pt-24 pb-20">
-      {post && (
+    <div className="pt-24 pb-20 relative">
+      {(post || placeholderPost) && (
         <Helmet>
-          <title>{post.title} | Whipsaw Blog</title>
-          <meta name="description" content={post.content.substring(0, 160)} />
-          <meta property="og:title" content={post.title} />
-          <meta property="og:description" content={post.content.substring(0, 160)} />
+          <title>{(post || placeholderPost).title} | Whipsaw Blog</title>
+          <meta name="description" content={(post || placeholderPost).content.substring(0, 160)} />
+          <meta property="og:title" content={(post || placeholderPost).title} />
+          <meta property="og:description" content={(post || placeholderPost).content.substring(0, 160)} />
           <meta property="og:type" content="article" />
-          <meta property="og:url" content={`https://whipsaw.com/blog/${post._id}`} />
-          {post.image && <meta property="og:image" content={post.image} />}
+          <meta property="og:url" content={`https://whipsaw.com/blog/${(post || placeholderPost)._id}`} />
+          {(post || placeholderPost).image && <meta property="og:image" content={(post || placeholderPost).image} />}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="author" content={post.author} />
+          <meta name="author" content={(post || placeholderPost).author} />
         </Helmet>
       )}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative">
         <Link to="/blog" className="inline-block mb-8 text-blue-600 hover:text-blue-800">
           &larr; Back to Blog
         </Link>
@@ -105,7 +112,7 @@ const BlogDetail = () => {
           </div>
         ) : post || placeholderPost ? (
           <motion.div 
-            className="max-w-4xl mx-auto"
+            className="max-w-4xl mx-auto relative"
             initial="hidden"
             animate="visible"
             variants={containerVariants}
@@ -140,8 +147,13 @@ const BlogDetail = () => {
             <motion.div 
               className="prose prose-lg max-w-none"
               variants={itemVariants}
-              dangerouslySetInnerHTML={{ __html: (post || placeholderPost).content }}
-            />
+            >
+              {(post || placeholderPost) && (post || placeholderPost).content && (
+                typeof (post || placeholderPost).content === 'string' ? 
+                  <div dangerouslySetInnerHTML={{ __html: (post || placeholderPost).content }} /> : 
+                  <p>{JSON.stringify((post || placeholderPost).content)}</p>
+              )}
+            </motion.div>
           </motion.div>
         ) : (
           <motion.div 
