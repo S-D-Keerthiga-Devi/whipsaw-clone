@@ -186,25 +186,7 @@ const Home = () => {
             >
               {project.client} • {project.year}
             </motion.p>
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              className="mt-4"
-            >
-              <Link
-                to={`/work/project-${project.id}`}
-                className="text-white underline underline-offset-4 font-medium inline-flex items-center gap-2"
-              >
-                View Project
-                <motion.span
-                  animate={{ x: isHovered ? 5 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  →
-                </motion.span>
-              </Link>
-            </motion.div>
+            {/* View Project button removed */}
           </div>
         </motion.div>
       </motion.div>
@@ -449,7 +431,7 @@ const Home = () => {
           }}
         >
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-8 tracking-tight"
+            className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-8 tracking-tight"
             initial="initial"
             animate="animate"
             whileHover={{ scale: 1.02, textShadow: "0 0 20px rgba(255, 255, 255, 0.5)" }}
@@ -472,7 +454,7 @@ const Home = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto font-light leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-12 max-w-3xl mx-auto font-light leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1, ease: [0.6, 0.05, 0.01, 0.9] }}
@@ -556,7 +538,7 @@ const Home = () => {
       </section>
 
       {/* Featured Projects Section */}
-      <section ref={scrollRef} className="py-20 bg-white relative overflow-hidden">
+      <section ref={scrollRef} className="py-10 sm:py-16 md:py-20 bg-white relative overflow-hidden">
         <motion.div
           className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-100 rounded-full opacity-10 blur-3xl"
           animate={{
@@ -566,7 +548,7 @@ const Home = () => {
           }}
         />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 40 }}
@@ -595,7 +577,7 @@ const Home = () => {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10"
             variants={staggerContainer}
             initial="initial"
             whileInView="animate"
@@ -624,7 +606,7 @@ const Home = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-10 sm:py-16 md:py-20 bg-white relative overflow-hidden">
         <motion.div
           className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-100 rounded-full opacity-10 blur-3xl"
           animate={{
@@ -634,7 +616,7 @@ const Home = () => {
           }}
         />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 40 }}
@@ -681,7 +663,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-black text-white relative overflow-hidden">
+      <section className="py-10 sm:py-16 md:py-20 bg-black text-white relative overflow-hidden">
         <motion.div
           className="absolute inset-0 opacity-30"
           style={{

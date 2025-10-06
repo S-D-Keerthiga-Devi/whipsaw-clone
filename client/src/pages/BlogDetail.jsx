@@ -23,19 +23,22 @@ const BlogDetail = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
+        console.log('Fetching blog post from:', `${import.meta.env.VITE_API_URL}/api/blogs/${id}`);
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs/${id}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          }
+          },
+          cache: 'no-store'
         });
         
         if (!response.ok) {
-          throw new Error('Failed to fetch blog post');
+          throw new Error(`Failed to fetch blog post: ${response.status} ${response.statusText}`);
         }
         
         const data = await response.json();
+        console.log('Fetched blog post:', data);
         
         if (data) {
           setPost(data);

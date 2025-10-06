@@ -40,17 +40,18 @@ const Blog = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        // Use relative URL to avoid CORS issues
+        console.log('Fetching blogs from:', `${import.meta.env.VITE_API_URL}/api/blogs`);
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          }
+          },
+          cache: 'no-store'
         });
         
         if (!response.ok) {
-          throw new Error('Failed to fetch blog posts');
+          throw new Error(`Failed to fetch blog posts: ${response.status} ${response.statusText}`);
         }
         
         const data = await response.json();

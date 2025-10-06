@@ -167,12 +167,6 @@ const Work = () => {
               {project.description && (
                 <p className="text-gray-300 mt-3 line-clamp-3">{project.description}</p>
               )}
-              <Link 
-                to={`/work/project-${project.id}`}
-                className="inline-block mt-5 text-white bg-black/40 hover:bg-black/60 px-4 py-2 rounded-md transition-colors duration-300"
-              >
-                View Project
-              </Link>
             </div>
           </div>
         </motion.div>
