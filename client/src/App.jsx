@@ -7,6 +7,7 @@ import './App.css';
 import Home from './pages/Home';
 import About from './pages/About';
 import Work from './pages/Work';
+import WorkDetail from './pages/WorkDetail';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
@@ -54,9 +55,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-white font-sans">
+        <div className="min-h-screen flex flex-col bg-white font-sans relative">
           <Navbar />
           <main className="flex-grow">
             <AnimatePresence mode="wait">
@@ -64,7 +65,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/work" element={<Work />} />
-                <Route path="/work/:id" element={<Work />} />
+                <Route path="/work/:id" element={<WorkDetail />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/contact" element={<Contact />} />

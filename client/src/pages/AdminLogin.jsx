@@ -23,41 +23,27 @@ const AdminLogin = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  // AdminLogin.jsx (updated handleSubmit)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
+  
+  try {
+    // Use the login function from AuthContext
+    const result = await login(formData.username, formData.password);
     
-    try {
-      // Use the login function from AuthContext
-      const result = await login(formData.username, formData.password);
-      
-      if (result.success) {
-        navigate('/admin/dashboard');
-      } else {
-        // Fallback to demo login if API fails
-        if (formData.username === 'admin' && formData.password === 'admin123') {
-          // For demo purposes, we'll use a mock user
-          const userData = {
-            username: 'admin',
-            isAdmin: true,
-            token: 'demo-token'
-          };
-          // Store user info in localStorage
-          localStorage.setItem('whipsawUser', JSON.stringify(userData));
-          // Update the user state in AuthContext
-          setUser(userData);
-          navigate('/admin/dashboard');
-        } else {
-          setError(result.message || 'Invalid credentials. Try admin/admin123');
-        }
-      }
-    } catch (err) {
-      setError('An error occurred during login');
-    } finally {
-      setIsLoading(false);
+    if (result.success) {
+      navigate(result.redirectTo || '/admin/dashboard');
+    } else {
+      setError(result.message || 'Invalid credentials. Try admin/admin123');
     }
-  };
+  } catch (err) {
+    setError('An error occurred during login');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Animation variants
   const pageVariants = {

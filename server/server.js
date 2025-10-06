@@ -9,6 +9,7 @@ import { connectDB } from "./config/database.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import workRoutes from "./routes/workRoutes.js";
 
 // Initialize dotenv
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/contact", contactRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/work", workRoutes);
 
 // Base route
 app.get("/", (req, res) => {

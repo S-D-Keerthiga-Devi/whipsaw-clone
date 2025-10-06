@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import AuthContext from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const AdminDashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   
   const [posts, setPosts] = useState([]);
@@ -21,11 +21,7 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    // Redirect if not logged in
-    if (!user) {
-      navigate('/admin/login');
-      return;
-    }
+    // No need to redirect here - ProtectedRoute handles this already
     
     // Fetch blog posts from API
     const fetchPosts = async () => {

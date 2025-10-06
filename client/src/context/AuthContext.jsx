@@ -1,62 +1,54 @@
 // AuthContext.jsx
-import { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
+  // Initialize auth state from localStorage
   useEffect(() => {
-    // Check if user is logged in from localStorage on initial load
     const storedUser = localStorage.getItem('whipsawUser');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Failed to parse stored user:', error);
+        localStorage.removeItem('whipsawUser');
+      }
     }
-    setLoading(false);
   }, []);
 
-  // Login user
   const login = async (username, password) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('whipsawUser', JSON.stringify(data));
-        setUser(data);
-        return { success: true };
-      } else {
-        return { success: false, message: data.message };
+      // In a real app, this would be an API call
+      // For demo purposes, we'll simulate a successful login
+      if (username === 'admin' && password === 'admin123') {
+        const userData = {
+          username: 'admin',
+          isAdmin: true,
+          token: 'demo-token'
+        };
+        localStorage.setItem('whipsawUser', JSON.stringify(userData));
+        setUser(userData);
+        return { success: true, redirectTo: '/admin/dashboard' };
       }
+      return { success: false, message: 'Invalid credentials' };
     } catch (error) {
-      return { success: false, message: 'An error occurred during login' };
+      return { success: false, message: 'Login failed' };
     }
   };
 
-  // Logout user
   const logout = () => {
     localStorage.removeItem('whipsawUser');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use the auth context
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
-
-export default AuthContext;
+export const useAuth = () => useContext(AuthContext);
