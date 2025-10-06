@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://whipsaw-server.onrender.com',
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:5000',
         changeOrigin: true,
         secure: true
       }
