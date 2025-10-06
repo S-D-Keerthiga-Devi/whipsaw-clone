@@ -36,14 +36,13 @@ const EditBlog = () => {
           throw new Error('Authentication token not found');
         }
 
-        const response = await fetch(`/api/blogs/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-          },
-          credentials: 'include'
+          }
         });
 
         if (!response.ok) {
@@ -97,14 +96,13 @@ const EditBlog = () => {
         throw new Error('Authentication token not found');
       }
 
-      const response = await fetch(`/api/blogs/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify(formData)
       });
 

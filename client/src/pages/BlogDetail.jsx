@@ -23,30 +23,19 @@ const BlogDetail = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/blogs/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs/${id}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          credentials: 'include'
+          }
         });
         
         if (!response.ok) {
           throw new Error('Failed to fetch blog post');
         }
         
-        // First get the response as text
-        const responseText = await response.text();
-        
-        // Try to parse it as JSON
-        let data;
-        try {
-          data = responseText ? JSON.parse(responseText) : null;
-        } catch (e) {
-          console.error('Error parsing JSON:', e, responseText);
-          throw new Error('Invalid response format');
-        }
+        const data = await response.json();
         
         if (data) {
           setPost(data);

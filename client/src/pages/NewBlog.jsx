@@ -44,14 +44,13 @@ const NewBlog = () => {
         throw new Error('Authentication token not found');
       }
 
-      const response = await fetch('/api/blogs', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        credentials: 'include',
         body: JSON.stringify(formData)
       });
 
