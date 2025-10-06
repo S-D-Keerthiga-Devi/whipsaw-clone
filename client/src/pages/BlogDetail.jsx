@@ -24,13 +24,14 @@ const BlogDetail = () => {
       try {
         setLoading(true);
         console.log('Fetching blog post from:', `${import.meta.env.VITE_API_URL}/api/blogs/${id}`);
+        
+        // Direct API call without credentials
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blogs/${id}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          cache: 'no-store'
+          }
         });
         
         if (!response.ok) {
@@ -39,13 +40,7 @@ const BlogDetail = () => {
         
         const data = await response.json();
         console.log('Fetched blog post:', data);
-        
-        if (data) {
-          setPost(data);
-        } else {
-          // If data is empty or null, use placeholder
-          setPost(placeholderPost);
-        }
+        setPost(data);
       } catch (error) {
         console.error('Error fetching blog post:', error);
         setError('Failed to load blog post');
